@@ -105,8 +105,35 @@ three_pop_items_df =
   mutate(product_rank = min_rank(desc(order_times))) %>% 
   filter(product_rank <= 3)
 
-three_pop_items_df
+knitr::kable(three_pop_items_df)
 ```
 
+This is the table showing the most popular three items in aisles "packaged vegetables fruits", "baking ingredients", and "dog food care".
+
+Under aisle "packaged vegetables fruits", Organic Baby Spinach is the most popular item, which has been ordered 9784 times; Organic Raspberries is the second popular item, which has been ordered 5546 times; Organic Blueberries is the third popular item, which has been ordered 4966 times.
+
+Under aisle "baking ingredients", Light Brown Sugar is the most popular item, which has been ordered 499 times; Pure Baking Soda is the second popular item, which has been ordered 387 times; Pure Baking Soda is the third popular item, which has been ordered 336 times.
+
+Under aisle "dog food care", Snack Sticks Chicken & Rice Recipe Dog Treats is the most popular item, which has been ordered 30 times; Organic Chicken & Brown Rice Recipe is the second popular item, which has been ordered 28 times; Small Dog Biscuits is the third popular item, which has been ordered 26 times.
+
+### Mean order hour of items
+
+```{r}
+hour_df = 
+  instacart %>% 
+  select(order_dow, order_hour_of_day, product_name) %>% 
+  filter(product_name == "Pink Lady Apples" | product_name == "Coffee Ice Cream") %>% 
+  group_by(order_dow, product_name) %>% 
+  summarize(mean_hour = mean(order_hour_of_day)) %>% 
+  pivot_wider(
+    names_from = "order_dow",
+    values_from = "mean_hour"
+  ) %>% 
+  rename("Sunday" = "0", "Monday" = "1", "Tuesday" = "2", "Wednesday" = "3", "Thursday" = "4",
+         "Friday" = "5", "Saturday" = "6") 
+
+knitr::kable(hour_df)
+```
+This is the table showing the mean order hour of a day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week. From this table, we can see that in general Pink Lady Apples is ordered earlier in a day than Coffee Ice Cream.
 
 
