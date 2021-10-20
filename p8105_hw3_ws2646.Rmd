@@ -4,3 +4,53 @@ author: "Weize Sun"
 date: "10/20/2021"
 output: github_document
 ---
+
+```{r}
+library(tidyverse)
+```
+
+
+## Problem 1
+
+```{r}
+library(p8105.datasets)
+data("instacart")
+```
+
+```{r, include = FALSE}
+nrow(instacart)
+ncol(instacart)
+skimr::skim(instacart)
+names(instacart)
+```
+
+### Short discription of the dataset
+
+This dataset contains 1384617 rows of observations and 15 columns of variables. The structure is, each row represents one order of one product by one user from an online grocery store "Instacart".
+The 15 variables are `r names(instacart)` .
+
+### Describing some key variables
+
+```{r}
+mean(pull(instacart, reordered))
+names(sort(table(pull(instacart, order_hour_of_day)), decreasing = TRUE))[1]
+mean(pull(instacart, days_since_prior_order))
+names(sort(table(pull(instacart, product_name)), decreasing = TRUE))[1]
+```
+I found there are 4 variables are important.
+
+The first one is `reordered`, which represents if the order has been ordered or not.
+
+The mean of `reordered` is 0.5985944, which means about 59.86% of the orders has been reordered.
+
+The second one is `order_hour_of_day`, which shows the hour of a day when a user placed that order.
+
+Most of the users placed order in 14, which is 2 pm.
+
+The third one is `days_since_prior_order`, which means after how many days the users reordered.
+
+The mean of `days_since_prior_order` is 17.06613, which means users often reordered after about 17 days.
+
+The fourth one is `product_name`, which shows the name of a product.
+
+Banana has been the most product the users ordered.
