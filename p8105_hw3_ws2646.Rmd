@@ -1,0 +1,6 @@
+---
+title: "p8105_hw3_ws2646"
+author: "Weize Sun"
+date: "10/20/2021"
+output: github_document
+---
