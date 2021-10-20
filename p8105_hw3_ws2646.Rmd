@@ -143,7 +143,7 @@ library(p8105.datasets)
 data("brfss_smart2010")
 ```
 
-### Cleanning data
+### Cleaning data
 
 ```{r}
 brfss_clean = 
@@ -158,5 +158,28 @@ brfss_clean =
 
 brfss_clean
 ```
+
+### Answering question
+
+```{r}
+brfss_2002 = 
+  filter(brfss_clean, year == 2002) %>% 
+  group_by(state) %>% 
+  summarize(observed = n_distinct(county)) %>%
+  filter(observed >= 7)
+
+brfss_2010 = 
+  filter(brfss_clean, year == 2010) %>% 
+  group_by(state) %>% 
+  summarize(observed = n_distinct(county)) %>%
+  filter(observed >= 7)
+
+brfss_2002
+brfss_2010
+```
+
+In 2002, there are 6 states with equal to or more than 7 observed counties. They are CT, FL, MA, NC, NJ, and PA.
+
+In 2010, there are 14 states with equal to or more than 7 observed counties. They are CA, CO, FL, MA, MD, NC, NE, NJ, NY, OH, PA, SC, TX, and WA.
 
 
