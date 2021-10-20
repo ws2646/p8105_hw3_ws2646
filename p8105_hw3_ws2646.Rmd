@@ -136,4 +136,27 @@ knitr::kable(hour_df)
 ```
 This is the table showing the mean order hour of a day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week. From this table, we can see that in general Pink Lady Apples is ordered earlier in a day than Coffee Ice Cream.
 
+## Problem 2
+
+```{r}
+library(p8105.datasets)
+data("brfss_smart2010")
+```
+
+### Cleanning data
+
+```{r}
+brfss_clean = 
+  brfss_smart2010 %>% 
+  janitor::clean_names() %>% 
+  select(-locationabbr) %>% 
+  separate(locationdesc, into = c("state", "county"), sep = "-") %>% 
+  filter(topic == "Overall Health", response == "Poor" | response == "Fair" | response == "Good" | 
+           response == "Very Good" | response == "Excellent") %>% 
+  mutate(response = factor(response, levels = c("Poor", "Fair", "Good", "Very Good", "Excellent"), ordered = TRUE)) %>% 
+  arrange(response)
+
+brfss_clean
+```
+
 
