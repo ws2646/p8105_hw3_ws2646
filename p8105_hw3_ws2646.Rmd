@@ -17,16 +17,21 @@ library(p8105.datasets)
 data("instacart")
 ```
 
-```{r, include = FALSE}
+```{r}
 nrow(instacart)
 ncol(instacart)
 skimr::skim(instacart)
+```
+
+```{r, include = FALSE}
 names(instacart)
 ```
+
 
 ### Short discription of the dataset
 
 This dataset contains 1384617 rows of observations and 15 columns of variables. The structure is, each row represents one order of one product by one user from an online grocery store "Instacart".
+
 The 15 variables are `r names(instacart)` .
 
 ### Describing some key variables
@@ -47,10 +52,43 @@ The second one is `order_hour_of_day`, which shows the hour of a day when a user
 
 Most of the users placed order in 14, which is 2 pm.
 
-The third one is `days_since_prior_order`, which means after how many days the users reordered.
+The third one is `days_since_prior_order`, which means after how many days the users placed another order.
 
-The mean of `days_since_prior_order` is 17.06613, which means users often reordered after about 17 days.
+The mean of `days_since_prior_order` is 17.06613, which means users often placed another order after about 17 days.
 
 The fourth one is `product_name`, which shows the name of a product.
 
 Banana has been the most product the users ordered.
+
+### Example of observation
+
+```{r}
+instacart[10,] %>% 
+  knitr::kable()
+```
+I chose the 10th row from this dataset. It shows that this user ordered Spring Water from aisle "water seltzer sparkling water" at aisle 115 from department beverages. This user placed this order at 6 pm on Saturday, and it has been 30 days since this user's last order.
+
+### About aisles
+
+```{r}
+length(unique(pull(instacart, aisle)))
+names(sort(table(pull(instacart, aisle)), decreasing = TRUE)) [1]
+```
+There are 134 unique aisles, of which fresh vegetables was the most ordered item from.
+
+```{r}
+aisle_plot = 
+  instacart %>% 
+  count(aisle, name = "number_of_items") %>% 
+  filter(number_of_items > 10000)  %>% 
+  ggplot(aes(reorder(aisle, number_of_items), x = number_of_items)) +
+  geom_point()+
+  labs(
+    title = "Number of items (more than 10,000 times) ordered in each aisle",
+    x = "Number of items",
+    y = "Aisle name",
+    caption = "Data from p8105 website"
+  )
+aisle_plot
+```
+
