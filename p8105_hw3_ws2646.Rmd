@@ -219,10 +219,29 @@ ggplot(brfss_06_10, aes(x = response, y = data_value, color = county))+
   labs(
     title = "Distribution of data value for responses among locations in NY",
     x = "Response (from Poor to Excellent)",
-    y = "Data Value",
+    y = "Data value",
     caption = "Data from p8105 website"
   )+
   theme(legend.position = "bottom")
-  
+
+ggplot(brfss_06_10, aes(x = data_value, fill = response))+
+  geom_density(alpha = .5)+
+  facet_grid(. ~ year)+
+  labs(
+    title = "Distribution of data value for responses among locations in NY",
+    y = "Density for data value",
+    x = "Data value",
+    caption = "Data from p8105 website"
+  )+
+  theme(legend.position = "bottom")
 ```
+
+In order to illustrate the dataset better, I made two two-panel plots: scatter plot and density plot. 
+
+Based on the scatter plot, we can see that there is no data for Bronx and Erie county in year 2006.
+
+Based on the density plot, we can see the density of each response much easier. Compare with 2006, people responded better in 2010.
+
+
+## Problem 3
 
