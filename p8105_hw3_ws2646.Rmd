@@ -287,3 +287,24 @@ After I cleaned the dataset, now it has 50400 observations and 5 variables.
 The 5 variables are "week", "day", "weekday_or_weekend", "minute", and "activity".
 
 
+### Total activity
+
+```{r}
+total_act = 
+  accel_df %>% 
+  group_by(week, day) %>% 
+  summarize(total_activity = sum(activity)) %>% 
+  pivot_wider(
+    names_from = "day",
+    values_from = "total_activity"
+  )
+
+knitr::kable(total_act)
+```
+
+From the table above, we can easily see this patient's total activity for each day of each week. 
+
+There are two values which should be noticed: one is Saturday of week 4, and the other is Saturday of week 5. 1440 means there's no activity (since the minimum activity per minute is 1 and total minutes of a day is 1440) on that day. Possible explanations are: whether this patient forgot to wear this equipment, or this patient didn't move a single inch on that day. I prefer the first explanation.
+
+Besides, I also noticed that this patient's activity was more stable during weekdays than weekends. 
+
