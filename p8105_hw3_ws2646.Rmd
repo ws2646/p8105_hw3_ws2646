@@ -245,3 +245,45 @@ Based on the density plot, we can see the density of each response much easier. 
 
 ## Problem 3
 
+### Cleaning data
+
+```{r}
+accel_df = 
+  read_csv("./data/accel_data.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(day = factor(day, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))) %>% 
+  arrange(week, day) %>% 
+  select(-day_id) %>% 
+  mutate(
+    weekday_or_weekend = case_when(
+      day == "Monday" ~ "weekday",
+      day == "Tuesday" ~ "weekday",
+      day == "Wednesday" ~ "weekday",
+      day == "Thursday" ~ "weekday",
+      day == "Friday" ~ "weekday",
+      day == "Saturday" ~ "weekend",
+      day == "Sunday" ~ "weekend")
+  ) %>%
+  pivot_longer(
+    activity_1:activity_1440,
+    names_to = "count",
+    values_to = "activity"
+  ) %>% 
+  separate(count, into = c("omit", "minute"), sep = "_") %>% 
+  select(-omit) %>% 
+  mutate(
+    week = as.factor(week),
+    weekday_or_weekend = as.factor(weekday_or_weekend),
+    minute = as.numeric(minute)
+  )
+
+accel_df
+dim(accel_df)
+names(accel_df)
+```
+
+After I cleaned the dataset, now it has 50400 observations and 5 variables. 
+
+The 5 variables are "week", "day", "weekday_or_weekend", "minute", and "activity".
+
+
